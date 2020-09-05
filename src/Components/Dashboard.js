@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import Web3 from 'web3';
-import TestContract from '../abis/TestContract.json'
+import TransferModal from '../Components/TransferModal';
 
 export default function Dashboard(props) {
-  const { userAddress, web3 } = props;
+  const { userAddress, web3, tokenContract } = props;
   const [ ethBalance, setEthBalance ] = useState('0');
-  const contractAddress = '0xA06e59D76E668b1141F23F3a14767E9e550C21b5';
+  const [ tokenBalance, setTokenBalance ] = useState('0');
+  const [ showTransferModal, setShowTransferModal ] = useState(false);
+
+  const handleTransferShow = () => setShowTransferModal(true);
+
+  const contractAddress = '0xd577a8B8f2650587639DbB3285932deBAe061Ef3';
   const assetSet = ['Bleep Token '];
 
   const getEthBalance = async () => {
     const weiEtherBalance = await web3.eth.getBalance(userAddress);
     const newEthBalance = web3.utils.fromWei(weiEtherBalance);
     setEthBalance(newEthBalance);
-  }  
+  }
 
+  const getTokenBalance = async () => {
+    console.log(tokenContract);
+    const newTokenBalance = await tokenContract.methods.balanceOf(userAddress).call();
+    setTokenBalance(newTokenBalance);
+  }
   useEffect(() => {
     getEthBalance();
-  }, [])
+    getTokenBalance();
+  }, []);
 
   return (
     <div>
@@ -34,13 +44,17 @@ export default function Dashboard(props) {
                   Info about token
                 </Card.Text>
                 <Card.Text>
-                  Balance: 
+                  Balance: {tokenBalance} BLP
                 </Card.Text>
-                <Button variant="primary">Transfer</Button>
+                <Button onClick={handleTransferShow} variant="primary">Transfer</Button>
               </Card.Body>
             </Card>
           )
         })}
+        <TransferModal 
+          showTransferModal={showTransferModal} 
+          setShowTransferModal={setShowTransferModal} 
+        />
         </div>
     </div>
   )

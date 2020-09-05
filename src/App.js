@@ -8,6 +8,7 @@ function App() {
   const [userAddress, setUserAddress ] = useState('0');
   const [ web3, setWeb3 ] = useState({});
   const [ walletConnected, setWalletConnected ] = useState(false);
+  const [ tokenContract, setTokenContract ] = useState({});
 
   return (
     <div className="App">
@@ -16,12 +17,14 @@ function App() {
       <ConnectWallet 
         setWeb3={setWeb3} 
         setWalletConnected={setWalletConnected}
-        setUserAddress={setUserAddress} 
+        setUserAddress={setUserAddress}
+        setTokenContract={setTokenContract} 
       />
       :
       <Dashboard 
         userAddress={userAddress} 
-        web3={web3} 
+        web3={web3}
+        tokenContract={tokenContract} 
       />
       }
     </div>
