@@ -40,7 +40,7 @@ contract FlashLoanPractice {
     uint256 _amount) external returns(bool) {
       require(msg.sender == owner);
       IERC20Token WithdrawToken = IERC20Token(_tokenAddress);
-      WithdrawToken.transfer(_recipient, _amount);
+      WithdrawToken.transfer(_recipient, (_amount+ _fee));
       return true
     } 
 }
