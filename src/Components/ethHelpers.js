@@ -5,7 +5,7 @@ const sigUtil = require('eth-sig-util');
 // Eth Related Var
 let web3;
 let tokenContract;
-const tokenContractAddress = '0xd577a8B8f2650587639DbB3285932deBAe061Ef3';
+const tokenContractAddress = '0x87F199F08e1BE5f5124E1893b087FcAb8e767a98';
 
 export const initializeWeb3 = () => {
   try {
@@ -90,6 +90,7 @@ export const signData = async (
         return console.error(err);
       }
       const sig = result.result;
+      console.log(sig);
       return sig;
     }
   );

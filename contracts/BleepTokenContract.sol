@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 contract BleepTokenContract is ERC20 {
   // using OZ lib for recoving address from sigs 
   using ECDSA for bytes32;
-  mapping(address=>uint8) nonces;
+  mapping(address=>uint8) public nonces;
 
   /* ============ EIP712 Signature Info  ============ */
   uint256 constant chainId = 3; //Ropsten
@@ -54,7 +54,6 @@ contract BleepTokenContract is ERC20 {
   ));
   }
 
-
   function permit(
     address _owner, 
     address _spender,
@@ -72,11 +71,14 @@ contract BleepTokenContract is ERC20 {
     });
 
     bytes32 hash = hashAllow(allow, address(this));
-    require(_owner == hash.recover(_signature));
-    // require(_owner != 0x0 && _spender != 0x0);
+    require(_owner == hash.recover(_signature), 'incorect owner address');
+    require(balanceOf(_owner) >= _value, 'invalid balance');
+    require(block.timestamp <= _deadline, 'invalid deadline');
+    require(_owner != address(0) && _spender != address(0), 'zero address');
     _approve(_owner, _spender, _value);
     nonces[_owner] += 1;
 
     return true;
   }
+  
 }

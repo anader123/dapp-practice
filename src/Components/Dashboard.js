@@ -26,10 +26,10 @@ export default function Dashboard(props) {
   }
 
   const getSig = async () => { 
-    const spender = '0x82055f10a5c87Cfc1AcB5CaC98fBb592C7cfdc9E';
-    const value = 100;
-    const deadline = 123333333;
-    const nonce = 1;
+    const spender = '0x9E4C0363bC5A6F803B1Fefc51149C4BC4b8C1fBA';
+    const value = 1000;
+    const deadline = 1599693799;
+    const nonce = 0;
     const sig = await signData(userAddress, spender, value, deadline, nonce);
   }
 
