@@ -3,15 +3,17 @@ import BleepTokenContract from '../abis/BleepTokenContract.json';
 const sigUtil = require('eth-sig-util');
 
 // Eth Related Var
-let web3;
-let tokenContract;
-const tokenContractAddress = '0x87F199F08e1BE5f5124E1893b087FcAb8e767a98';
+export let web3;
+let bleepTokenContract;
+let testDepositContract;
+const bleepTokenAddress = '0x369a5b5bAe583b4F5E7FD5065662Dd48fC5Bb843';
+const testDepositContractAddress = '';
 
 export const initializeWeb3 = () => {
   try {
     const provider =  window.web3.currentProvider;
     web3 = new Web3(provider);
-    tokenContract = new web3.eth.Contract(BleepTokenContract.abi, tokenContractAddress);
+    bleepTokenContract = new web3.eth.Contract(BleepTokenContract.abi, bleepTokenAddress);
     return web3;
   }
   catch (err) {
@@ -26,8 +28,18 @@ export const getEthBalance = async (userAddress) => {
 }
 
 export const getTokenBalance = async (userAddress) => {
-  const newTokenBalance = await tokenContract.methods.balanceOf(userAddress).call();
+  const newTokenBalance = await bleepTokenContract.methods.balanceOf(userAddress).call();
   return newTokenBalance;
+}
+
+export const mintTokens = async (amount, userAddress) => {
+  if(amount > 0) {
+    const txHash = bleepTokenContract.methods.mint(amount).send({from: userAddress});
+    return txHash;
+  }
+  else {
+    window.alert('Please enter an amount before minting');
+  }
 }
 
 // Signature Info
@@ -58,7 +70,7 @@ export const signData = async (
     name: "Bleep Token",
     version: "1",
     chainId: window.ethereum.networkVersion, // Should be Ropsten
-    verifyingContract: tokenContractAddress
+    verifyingContract: bleepTokenAddress
   };
   const message = {
     owner,

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import TransferModal from '../Components/TransferModal';
 import { 
   signData, 
   getEthBalance, 
@@ -8,15 +7,15 @@ import {
   tokenContract 
 } from './ethHelpers.js';
 
+// Components
+import LockTokens from '../Components/LockTokens';
+import MintTokens from '../Components/MintTokens';
+
 export default function Dashboard(props) {
   const { userAddress } = props;
   const [ ethBalance, setEthBalance ] = useState('0');
   const [ tokenBalance, setTokenBalance ] = useState('0');
-  const [ showTransferModal, setShowTransferModal ] = useState(false);
-
-  const handleTransferShow = () => setShowTransferModal(true);
-
-  const assetSet = ['Bleep Token '];
+  const [ step, setStep ] = useState(0);
 
   const ethLoadData = async () => {
     const newEthBalance = await getEthBalance(userAddress);
@@ -33,38 +32,37 @@ export default function Dashboard(props) {
     const sig = await signData(userAddress, spender, value, deadline, nonce);
   }
 
+  const returnBack = () => {
+    setStep(0);
+  }
+
   useEffect(() => {
     ethLoadData();
   }, [ethLoadData]);
 
-  return (
-    <div>
-      <div className='dashboard-container'>
-      <h2>{`Wallet Address: ${userAddress}`}</h2>
-      <h3>{`Eth Balance: ${ethBalance} ETH`}</h3>
-      {assetSet.map(token => { 
-        return (
-          <Card style={{ width: '18rem', margin: '1rem', border: '2px solid black' }}>
-              <Card.Img variant="top" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.iC78mg7jHzNvc7jJScInigAAAA%26pid%3DApi&f=1" />
-              <Card.Body>
-                <Card.Title style={{outline: 'none'}}>{token}</Card.Title>
-                <Card.Text>
-                  Info about token
-                </Card.Text>
-                <Card.Text>
-                  Balance: {tokenBalance} BLP
-                </Card.Text>
-                <Button onClick={handleTransferShow} variant="primary">Transfer</Button>
-              </Card.Body>
-            </Card>
-          )
-        })}
-        <Button onClick={getSig}>Get Signature</Button>
-        <TransferModal 
-          showTransferModal={showTransferModal} 
-          setShowTransferModal={setShowTransferModal} 
-        />
+  switch (step) {
+    case 0:
+      return(
+        <div>
+          <div className='dashboard-container'>
+            <h2>{`Wallet Address: ${userAddress}`}</h2>
+            <h3>{`Eth Balance: ${ethBalance} ETH`}</h3>
+          </div>
+          <div>
+              <Button onClick={()=>setStep(1)}>Mint Tokens</Button>
+              <Button onClick={()=>setStep(2)}>Lock Tokens</Button>
+          </div>
         </div>
-    </div>
-  )
+      )
+    case 1: 
+      return(
+        <MintTokens returnBack={returnBack} />
+      )
+    case 2:
+      return(
+        <LockTokens returnBack={returnBack} />
+      )
+    default:
+      break;
+  }
 }

@@ -24,8 +24,12 @@ contract BleepTokenContract is ERC20 {
     uint8 nonce;
   }
 
-  constructor(uint256 initialSupply) ERC20("Bleep", "BLP") public {
-    _mint(msg.sender, initialSupply);
+  constructor() ERC20("Bleep Token", "BLP") public {
+  }
+
+  function mint(address _recipient, uint256 _amount) external returns(bool) {
+    _mint(_recipient, _amount);
+    return true;
   }
 
   function hashAllow(

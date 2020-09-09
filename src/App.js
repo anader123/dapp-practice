@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>My Killer Dapp</h1>
+      <h1>Bleep Token Factory</h1>
       {!walletConnected ? 
       <ConnectWallet 
         setWeb3={setWeb3} 
