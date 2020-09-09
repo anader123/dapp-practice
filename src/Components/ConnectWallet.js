@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
-import Web3 from 'web3';
+import { initializeWeb3 } from '../Components/ethHelpers';
 import TestContract from '../abis/TestContract.json';
 
 export default function ConnectWallet(props) {
@@ -14,7 +14,7 @@ export default function ConnectWallet(props) {
       try {
         const accounts = await window.ethereum.enable();
         setUserAddress(accounts[0]);
-        let web3 = new Web3(window.web3.currentProvider);
+        const web3 = await initializeWeb3();
         await setWeb3(web3);
         await initializeTokenContract(web3);
         setWalletConnected(true);

@@ -1,33 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import TransferModal from '../Components/TransferModal';
+import { 
+  signData, 
+  getEthBalance, 
+  getTokenBalance,
+  tokenContract 
+} from './ethHelpers.js';
 
 export default function Dashboard(props) {
-  const { userAddress, web3, tokenContract } = props;
+  const { userAddress } = props;
   const [ ethBalance, setEthBalance ] = useState('0');
   const [ tokenBalance, setTokenBalance ] = useState('0');
   const [ showTransferModal, setShowTransferModal ] = useState(false);
 
   const handleTransferShow = () => setShowTransferModal(true);
 
-  const contractAddress = '0xd577a8B8f2650587639DbB3285932deBAe061Ef3';
   const assetSet = ['Bleep Token '];
 
-  const getEthBalance = async () => {
-    const weiEtherBalance = await web3.eth.getBalance(userAddress);
-    const newEthBalance = web3.utils.fromWei(weiEtherBalance);
+  const ethLoadData = async () => {
+    const newEthBalance = await getEthBalance(userAddress);
+    const newTokenBalance = await getTokenBalance(userAddress);
     setEthBalance(newEthBalance);
-  }
-
-  const getTokenBalance = async () => {
-    console.log(tokenContract);
-    const newTokenBalance = await tokenContract.methods.balanceOf(userAddress).call();
     setTokenBalance(newTokenBalance);
   }
+
+  const getSig = async () => { 
+    const spender = '0x82055f10a5c87Cfc1AcB5CaC98fBb592C7cfdc9E';
+    const value = 100;
+    const deadline = 123333333;
+    const nonce = 1;
+    const sig = await signData(userAddress, spender, value, deadline, nonce);
+  }
+
   useEffect(() => {
-    getEthBalance();
-    getTokenBalance();
-  }, []);
+    ethLoadData();
+  }, [ethLoadData]);
 
   return (
     <div>
@@ -51,6 +59,7 @@ export default function Dashboard(props) {
             </Card>
           )
         })}
+        <Button onClick={getSig}>Get Signature</Button>
         <TransferModal 
           showTransferModal={showTransferModal} 
           setShowTransferModal={setShowTransferModal} 
