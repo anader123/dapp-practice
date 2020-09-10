@@ -10,7 +10,7 @@ contract BleepTokenContract is ERC20 {
   mapping(address=>uint8) public nonces;
 
   /* ============ EIP712 Signature Info  ============ */
-  uint256 constant chainId = 3; //Ropsten
+  uint256 constant chainId = 42; //Kovan
   string private constant EIP712_DOMAIN = "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)";
   string private constant ALLOW_TYPE = "Allow(address owner,address spender,uint256 value,uint256 deadline,uint8 nonce)";
   bytes32 private constant EIP712_DOMAIN_TYPEHASH = keccak256(abi.encodePacked(EIP712_DOMAIN));

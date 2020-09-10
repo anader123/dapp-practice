@@ -1,19 +1,21 @@
 import Web3 from 'web3';
 import BleepTokenContract from '../abis/BleepTokenContract.json';
+import TestDepositContract from '../abis/TestDepositContract.json';
 const sigUtil = require('eth-sig-util');
 
-// Eth Related Var
+// Eth Related Vars
 export let web3;
 let bleepTokenContract;
 let testDepositContract;
-const bleepTokenAddress = '0x369a5b5bAe583b4F5E7FD5065662Dd48fC5Bb843';
-const testDepositContractAddress = '';
+const bleepTokenAddress = '0xf7189e50cc020658e0f4E17E6eED37470A333c75'; //Kovan
+const testDepositContractAddress = '0x6687BA38B7fBdfe62FAfB3f30FBA5219C6c6CEAC'; //Kovan
 
 export const initializeWeb3 = () => {
   try {
     const provider =  window.web3.currentProvider;
     web3 = new Web3(provider);
     bleepTokenContract = new web3.eth.Contract(BleepTokenContract.abi, bleepTokenAddress);
+    testDepositContract = new web3.eth.Contract(TestDepositContract.abi, testDepositContractAddress);
     return web3;
   }
   catch (err) {
@@ -27,18 +29,52 @@ export const getEthBalance = async (userAddress) => {
   return newEthBalance
 }
 
-export const getTokenBalance = async (userAddress) => {
-  const newTokenBalance = await bleepTokenContract.methods.balanceOf(userAddress).call();
+export const getBleepTokenBalance = async (userAddress) => {
+  const weiTokenBalance = await bleepTokenContract.methods.balanceOf(userAddress).call();
+  const newTokenBalance = web3.utils.fromWei(weiTokenBalance);
+  return newTokenBalance;
+}
+
+export const getABleepTokenBalance = async (userAddress) => {
+  const weiTokenBalance = await testDepositContract.methods.balanceOf(userAddress).call();
+  const newTokenBalance = web3.utils.fromWei(weiTokenBalance);
   return newTokenBalance;
 }
 
 export const mintTokens = async (amount, userAddress) => {
   if(amount > 0) {
-    const txHash = bleepTokenContract.methods.mint(amount).send({from: userAddress});
-    return txHash;
+    const response = await bleepTokenContract.methods.mint(userAddress, amount).send({from: userAddress});
+    return response.transactionHash;
   }
   else {
     window.alert('Please enter an amount before minting');
+  }
+}
+
+export const getPermitNonce = async (userAddress) => {
+  const nonce = await bleepTokenContract.methods.nonces(userAddress).call();
+  return nonce;
+}
+
+export const lockTokens = async (
+  userAddress, 
+  spender, 
+  value, 
+  deadline, 
+  signature
+  ) => {
+  if(+value > 0) {
+    const response = await testDepositContract.methods.testDepositTokens(
+      userAddress, 
+      spender, 
+      value, 
+      deadline, 
+      signature
+      ).send({from: userAddress});
+    return response.transactionHash;
+  }
+  else {
+    window.alert('Please enter an amount before locking');
   }
 }
 
@@ -63,7 +99,8 @@ export const signData = async (
   spender,
   value,
   deadline,
-  nonce
+  nonce,
+  callLockMethod
   ) => {
   
   const domainData = {
@@ -91,7 +128,7 @@ export const signData = async (
   });
 
   const formattedSigner = web3.utils.toChecksumAddress(owner);
-  web3.currentProvider.sendAsync(
+  await web3.currentProvider.sendAsync(
     {
       method: "eth_signTypedData_v3",
       params: [formattedSigner, data],
@@ -102,8 +139,7 @@ export const signData = async (
         return console.error(err);
       }
       const sig = result.result;
-      console.log(sig);
-      return sig;
+      callLockMethod(sig)
     }
   );
 }

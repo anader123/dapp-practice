@@ -11,16 +11,21 @@ export default function ConnectWallet(props) {
 
   const connectWallet = async () => {
     if(window.ethereum && window.web3) {
-      try {
-        const accounts = await window.ethereum.enable();
-        setUserAddress(accounts[0]);
-        const web3 = await initializeWeb3();
-        await setWeb3(web3);
-        await initializeTokenContract(web3);
-        setWalletConnected(true);
+      if(window.ethereum.networkVersion = "42") {
+        try {
+          const accounts = await window.ethereum.enable();
+          setUserAddress(accounts[0]);
+          const web3 = await initializeWeb3();
+          await setWeb3(web3);
+          await initializeTokenContract(web3);
+          setWalletConnected(true);
+        }
+        catch (err) {
+          console.error(err);
+        }
       }
-      catch (err) {
-        console.error(err);
+      else {
+        window.alert('Please switch to the Kovan Network');
       }
     }
     else {
