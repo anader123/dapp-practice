@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dashboard from './Components/Dashboard';
 import ConnectWallet from './Components/ConnectWallet';
-import './reset.css';
+// import './reset.css';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
