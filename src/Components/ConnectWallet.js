@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { initializeWeb3 } from '../Components/ethHelpers';
+import { initializeWeb3 } from '../ethHelpers';
 import TestContract from '../abis/TestContract.json';
 
 export default function ConnectWallet(props) {

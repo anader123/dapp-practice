@@ -1,6 +1,6 @@
 import Web3 from 'web3';
-import BleepTokenContract from '../abis/BleepTokenContract.json';
-import TestDepositContract from '../abis/TestDepositContract.json';
+import BleepTokenContract from './abis/BleepTokenContract.json';
+import TestDepositContract from './abis/TestDepositContract.json';
 const sigUtil = require('eth-sig-util');
 
 // Eth Related Vars

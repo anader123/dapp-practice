@@ -4,7 +4,7 @@ import {
   getEthBalance, 
   getBleepTokenBalance,
   getABleepTokenBalance
-} from './ethHelpers.js';
+} from '../ethHelpers.js';
 
 // Components
 import LockTokens from '../Components/LockTokens';

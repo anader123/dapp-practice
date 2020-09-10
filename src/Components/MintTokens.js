@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import { web3, mintTokens } from '../Components/ethHelpers';
+import { web3, mintTokens } from '../ethHelpers';
 import mintIcon from '../images/mint-icon.png';
 
 export default function MintTokens(props) {

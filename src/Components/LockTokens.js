@@ -5,7 +5,7 @@ import {
   getPermitNonce, 
   lockTokens, 
   web3 
-} from '../Components/ethHelpers';
+} from '../ethHelpers';
 import lockIcon from '../images/lock-icon.png';
 
 export default function LockTokens(props) {
