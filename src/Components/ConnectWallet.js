@@ -11,7 +11,7 @@ export default function ConnectWallet(props) {
 
   const connectWallet = async () => {
     if(window.ethereum && window.web3) {
-      if(window.ethereum.networkVersion = "42") {
+      if(window.ethereum.networkVersion === "42") {
         try {
           const accounts = await window.ethereum.enable();
           setUserAddress(accounts[0]);
@@ -39,7 +39,7 @@ export default function ConnectWallet(props) {
   }
 
   return (
-    <div>
+    <div className='connect-button'>
       <Button onClick={connectWallet}>Connect Wallet</Button> 
     </div>
   )

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Image } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { web3, mintTokens } from '../Components/ethHelpers';
 import mintIcon from '../images/mint-icon.png';
 
@@ -17,9 +17,14 @@ export default function MintTokens(props) {
   }
 
   const mintClicked = async () => {
-    const hash = await mintTokens(mintAmount, userAddress);
-    setTxHash(hash);
-    setTxSent(true);
+    if(mintAmount > 0) {
+      const hash = await mintTokens(mintAmount, userAddress);
+      setTxHash(hash);
+      setTxSent(true);
+    }
+    else {
+      window.alert('Please enter an amount before minting');
+    }
   }
 
   const userAddress = window.ethereum.selectedAddress;
@@ -27,10 +32,10 @@ export default function MintTokens(props) {
     <div className='main-container'>
       <h3>Mint Bleep Tokens</h3>
       <div className='form-container'>
-      <img src={mintIcon} height='150' width='auto' />
+      <img src={mintIcon} height='95' width='auto' alt='create icon'/>
         <label>Enter an amount</label>
         <input type='number' onChange={(e)=>handleChange(e)}></input>
-        <div className='button-container'>
+        <div className='button-container button-width'>
           <Button onClick={returnBack}>Back</Button>
           <Button onClick={mintClicked}>Mint</Button>
         </div>

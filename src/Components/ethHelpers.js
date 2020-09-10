@@ -42,13 +42,8 @@ export const getABleepTokenBalance = async (userAddress) => {
 }
 
 export const mintTokens = async (amount, userAddress) => {
-  if(amount > 0) {
-    const response = await bleepTokenContract.methods.mint(userAddress, amount).send({from: userAddress});
-    return response.transactionHash;
-  }
-  else {
-    window.alert('Please enter an amount before minting');
-  }
+  const response = await bleepTokenContract.methods.mint(userAddress, amount).send({from: userAddress});
+  return response.transactionHash;
 }
 
 export const getPermitNonce = async (userAddress) => {
@@ -63,19 +58,14 @@ export const lockTokens = async (
   deadline, 
   signature
   ) => {
-  if(+value > 0) {
-    const response = await testDepositContract.methods.testDepositTokens(
-      userAddress, 
-      spender, 
-      value, 
-      deadline, 
-      signature
-      ).send({from: userAddress});
-    return response.transactionHash;
-  }
-  else {
-    window.alert('Please enter an amount before locking');
-  }
+  const response = await testDepositContract.methods.testDepositTokens(
+    userAddress, 
+    spender, 
+    value, 
+    deadline, 
+    signature
+    ).send({from: userAddress});
+  return response.transactionHash;
 }
 
 // Signature Info
