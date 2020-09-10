@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/dapp-pratice/static/css/main.fbab8454.chunk.css",
-    "main.js": "/dapp-pratice/static/js/main.9a8cb50e.chunk.js",
-    "main.js.map": "/dapp-pratice/static/js/main.9a8cb50e.chunk.js.map",
-    "runtime-main.js": "/dapp-pratice/static/js/runtime-main.5ad4dd33.js",
-    "runtime-main.js.map": "/dapp-pratice/static/js/runtime-main.5ad4dd33.js.map",
-    "static/css/2.d9ad5f5c.chunk.css": "/dapp-pratice/static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.1ac2fded.chunk.js": "/dapp-pratice/static/js/2.1ac2fded.chunk.js",
-    "static/js/2.1ac2fded.chunk.js.map": "/dapp-pratice/static/js/2.1ac2fded.chunk.js.map",
-    "index.html": "/dapp-pratice/index.html",
-    "precache-manifest.98ef18fddeb86ee9acd9d0c3ef60aa9e.js": "/dapp-pratice/precache-manifest.98ef18fddeb86ee9acd9d0c3ef60aa9e.js",
-    "service-worker.js": "/dapp-pratice/service-worker.js",
-    "static/css/2.d9ad5f5c.chunk.css.map": "/dapp-pratice/static/css/2.d9ad5f5c.chunk.css.map",
-    "static/css/main.fbab8454.chunk.css.map": "/dapp-pratice/static/css/main.fbab8454.chunk.css.map",
-    "static/js/2.1ac2fded.chunk.js.LICENSE.txt": "/dapp-pratice/static/js/2.1ac2fded.chunk.js.LICENSE.txt"
+    "main.css": "/dapp-practice/static/css/main.fbab8454.chunk.css",
+    "main.js": "/dapp-practice/static/js/main.9a8cb50e.chunk.js",
+    "main.js.map": "/dapp-practice/static/js/main.9a8cb50e.chunk.js.map",
+    "runtime-main.js": "/dapp-practice/static/js/runtime-main.c02b4fac.js",
+    "runtime-main.js.map": "/dapp-practice/static/js/runtime-main.c02b4fac.js.map",
+    "static/css/2.d9ad5f5c.chunk.css": "/dapp-practice/static/css/2.d9ad5f5c.chunk.css",
+    "static/js/2.2da40ce6.chunk.js": "/dapp-practice/static/js/2.2da40ce6.chunk.js",
+    "static/js/2.2da40ce6.chunk.js.map": "/dapp-practice/static/js/2.2da40ce6.chunk.js.map",
+    "index.html": "/dapp-practice/index.html",
+    "precache-manifest.32abfd0cc7a072240d5ddc0b975a6e89.js": "/dapp-practice/precache-manifest.32abfd0cc7a072240d5ddc0b975a6e89.js",
+    "service-worker.js": "/dapp-practice/service-worker.js",
+    "static/css/2.d9ad5f5c.chunk.css.map": "/dapp-practice/static/css/2.d9ad5f5c.chunk.css.map",
+    "static/css/main.fbab8454.chunk.css.map": "/dapp-practice/static/css/main.fbab8454.chunk.css.map",
+    "static/js/2.2da40ce6.chunk.js.LICENSE.txt": "/dapp-practice/static/js/2.2da40ce6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.5ad4dd33.js",
+    "static/js/runtime-main.c02b4fac.js",
     "static/css/2.d9ad5f5c.chunk.css",
-    "static/js/2.1ac2fded.chunk.js",
+    "static/js/2.2da40ce6.chunk.js",
     "static/css/main.fbab8454.chunk.css",
     "static/js/main.9a8cb50e.chunk.js"
   ]
