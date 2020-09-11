@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { web3, mintTokens } from '../ethHelpers';
 import mintIcon from '../images/mint-icon.png';
+import TxStatus from '../Components/TxStatus';
 
 export default function MintTokens(props) {
   const { returnBack } = props;
   const [ mintAmount, setMintAmount ] = useState(0);
-  const [ txSent, setTxSent ] = useState(false);
+  const [ step, setStep ] = useState(0);
   const [ txHash, setTxHash ] = useState('');
 
   const handleChange = (e) => {
@@ -18,9 +19,14 @@ export default function MintTokens(props) {
 
   const mintClicked = async () => {
     if(mintAmount > 0) {
-      const hash = await mintTokens(mintAmount, userAddress);
-      setTxHash(hash);
-      setTxSent(true);
+      try {
+        setStep(2);
+        const hash = await mintTokens(mintAmount, userAddress);
+        await setTxHash(hash);
+        setStep(3);
+      } catch (error) {
+        setStep(1);
+      }
     }
     else {
       window.alert('Please enter an amount before minting');
@@ -39,7 +45,10 @@ export default function MintTokens(props) {
           <Button onClick={returnBack}>Back</Button>
           <Button onClick={mintClicked}>Mint</Button>
         </div>
-        {!txSent ? <div/> : <a target='_blank'rel="noopener noreferrer" href={`https://kovan.etherscan.io/tx/${txHash}`}>View Tx on Etherscan</a>}
+        <TxStatus 
+          step={step} 
+          txHash={txHash} 
+          />
       </div>
     </div>
   )

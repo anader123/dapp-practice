@@ -24,31 +24,56 @@ export const initializeWeb3 = () => {
 }
 
 export const getEthBalance = async (userAddress) => {
-  const weiEtherBalance = await web3.eth.getBalance(userAddress);
-  const newEthBalance = web3.utils.fromWei(weiEtherBalance);
-  return newEthBalance
+  try {
+    const weiEtherBalance = await web3.eth.getBalance(userAddress);
+    const newEthBalance = web3.utils.fromWei(weiEtherBalance);
+    return newEthBalance
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
 
 export const getBleepTokenBalance = async (userAddress) => {
-  const weiTokenBalance = await bleepTokenContract.methods.balanceOf(userAddress).call();
-  const newTokenBalance = web3.utils.fromWei(weiTokenBalance);
-  return newTokenBalance;
+  try {
+    const weiTokenBalance = await bleepTokenContract.methods.balanceOf(userAddress).call();
+    const newTokenBalance = web3.utils.fromWei(weiTokenBalance);
+    return newTokenBalance;
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
 
 export const getABleepTokenBalance = async (userAddress) => {
-  const weiTokenBalance = await testDepositContract.methods.balanceOf(userAddress).call();
-  const newTokenBalance = web3.utils.fromWei(weiTokenBalance);
-  return newTokenBalance;
+   try {
+    const weiTokenBalance = await testDepositContract.methods.balanceOf(userAddress).call();
+    const newTokenBalance = web3.utils.fromWei(weiTokenBalance);
+    return newTokenBalance;
+   }
+  catch (err) {
+    console.error(err);
+  }
 }
 
 export const mintTokens = async (amount, userAddress) => {
-  const response = await bleepTokenContract.methods.mint(userAddress, amount).send({from: userAddress});
-  return response.transactionHash;
+  try {
+    const response = await bleepTokenContract.methods.mint(userAddress, amount).send({from: userAddress});
+    return response.transactionHash;
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
 
 export const getPermitNonce = async (userAddress) => {
-  const nonce = await bleepTokenContract.methods.nonces(userAddress).call();
-  return nonce;
+  try {
+    const nonce = await bleepTokenContract.methods.nonces(userAddress).call();
+    return nonce;
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
 
 export const lockTokens = async (
@@ -58,14 +83,19 @@ export const lockTokens = async (
   deadline, 
   signature
   ) => {
-  const response = await testDepositContract.methods.testDepositTokens(
-    userAddress, 
-    spender, 
-    value, 
-    deadline, 
-    signature
-    ).send({from: userAddress});
-  return response.transactionHash;
+  try {
+    const response = await testDepositContract.methods.testDepositTokens(
+      userAddress, 
+      spender, 
+      value, 
+      deadline, 
+      signature
+      ).send({from: userAddress});
+    return response.transactionHash;
+  }
+  catch (err) {
+    console.error(err);
+  }
 }
 
 // Signature Info

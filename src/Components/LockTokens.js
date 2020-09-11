@@ -7,11 +7,12 @@ import {
   web3 
 } from '../ethHelpers';
 import lockIcon from '../images/lock-icon.png';
+import TxStatus from '../Components/TxStatus';
 
 export default function LockTokens(props) {
   const { returnBack } = props;
   const [ lockAmount, setLockAmount ] = useState(0);
-  const [ txSent, setTxSent ] = useState(false);
+  const [ step, setStep ] = useState(0);
   const [ txHash, setTxHash ] = useState('');
   const userAddress = window.ethereum.selectedAddress;
 
@@ -23,19 +24,25 @@ export default function LockTokens(props) {
   }
 
   const callLockMethod = async (sig) => {
-    const spender = '0x6687BA38B7fBdfe62FAfB3f30FBA5219C6c6CEAC' // Deposit Contract Address
-    const deadline = 1799694895;
+    try {
+      const spender = '0x6687BA38B7fBdfe62FAfB3f30FBA5219C6c6CEAC' // Deposit Contract Address
+      const deadline = 1799694895;
 
-    const hash = await lockTokens(
-      userAddress, 
-      spender, 
-      lockAmount, 
-      deadline, 
-      sig
+      setStep(2);
+      const hash = await lockTokens(
+        userAddress, 
+        spender, 
+        lockAmount, 
+        deadline, 
+        sig
       );
-  
-    setTxHash(hash);
-    setTxSent(true);
+      
+      await setTxHash(hash);
+      setStep(3);    
+    } catch (error) {
+      setStep(1);
+      console.error(error);
+    }
   }
 
   const lockClicked = async () => {
@@ -69,7 +76,10 @@ export default function LockTokens(props) {
           <Button onClick={returnBack}>Back</Button>
           <Button onClick={lockClicked}>Lock</Button>
         </div>
-        {!txSent ? <div/> : <a target='_blank'rel="noopener noreferrer" href={`https://kovan.etherscan.io/tx/${txHash}`}>View Tx on Etherscan</a>}
+        <TxStatus 
+          step={step} 
+          txHash={txHash} 
+        />
       </div>
     </div>
   )
