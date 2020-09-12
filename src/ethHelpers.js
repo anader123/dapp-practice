@@ -1,7 +1,6 @@
 import Web3 from 'web3';
 import BleepTokenContract from './abis/BleepTokenContract.json';
 import TestDepositContract from './abis/TestDepositContract.json';
-const sigUtil = require('eth-sig-util');
 
 // Eth Related Vars
 export let web3;
@@ -10,6 +9,7 @@ let testDepositContract;
 const bleepTokenAddress = '0xf7189e50cc020658e0f4E17E6eED37470A333c75'; //Kovan
 const testDepositContractAddress = '0x6687BA38B7fBdfe62FAfB3f30FBA5219C6c6CEAC'; //Kovan
 
+// Initailize the web3 obj and contracts
 export const initializeWeb3 = () => {
   try {
     const provider =  window.web3.currentProvider;
@@ -66,6 +66,7 @@ export const mintTokens = async (amount, userAddress) => {
   }
 }
 
+// Gets current account nonce to create the sig 
 export const getPermitNonce = async (userAddress) => {
   try {
     const nonce = await bleepTokenContract.methods.nonces(userAddress).call();
@@ -76,6 +77,7 @@ export const getPermitNonce = async (userAddress) => {
   }
 }
 
+// Swaps Bleep Tokens for aBleep Tokens
 export const lockTokens = async (
   userAddress, 
   spender, 
@@ -114,6 +116,8 @@ const Allow = [
   {name: "nonce", type: "uint8"}
 ];
 
+
+// Creates the signature
 export const signData = async (
   owner,
   spender,
@@ -164,39 +168,3 @@ export const signData = async (
   );
 }
 
-export const verifySignature = async (
-  owner, 
-  value,
-  channelNonce, 
-  channelAddress,
-  sig
-) => {
-
-  const domainData = {
-    name: "Bleep Token",
-    version: "1",
-    chainId: window.ethereum.networkVersion, 
-    verifyingContract: channelAddress
-  };
-  
-  const message = {
-    value: value,
-    nonce: channelNonce
-  };
-  
-  const data = JSON.stringify({
-    types: {
-      EIP712Domain: domain,
-      Allow
-    },
-    domain: domainData,
-    primaryType: "Allow",
-    message: message
-  });
-
-  const recovered = sigUtil.recoverTypedSignature({ data: JSON.parse(data), sig: sig });
-  const formattedRecovered = web3.utils.toChecksumAddress(recovered);
-  const formattedSender = web3.utils.toChecksumAddress(owner);
-
-  return formattedRecovered === formattedSender;
-}

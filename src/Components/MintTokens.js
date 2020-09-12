@@ -9,6 +9,7 @@ export default function MintTokens(props) {
   const [ mintAmount, setMintAmount ] = useState(0);
   const [ step, setStep ] = useState(0);
   const [ txHash, setTxHash ] = useState('');
+  const userAddress = window.ethereum.selectedAddress;
 
   const handleChange = (e) => {
     if(e.target.value > 0) {
@@ -33,7 +34,6 @@ export default function MintTokens(props) {
     }
   }
 
-  const userAddress = window.ethereum.selectedAddress;
   return (
     <div className='main-container'>
       <h3>Mint Bleep Tokens</h3>
