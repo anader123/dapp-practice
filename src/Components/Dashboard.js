@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap';
 import { 
   getEthBalance, 
   getBleepTokenBalance,
-  getABleepTokenBalance
+  getABleepTokenBalance,
+  addressShortener
 } from '../ethHelpers.js';
 
 // Components
@@ -12,6 +13,7 @@ import MintTokens from '../Components/MintTokens';
 
 export default function Dashboard(props) {
   const { userAddress } = props;
+  const [ shortAddress, setShortAddress ] = useState('');
   const [ ethBalance, setEthBalance ] = useState('0');
   const [ bleepTokenBalance, setBleepTokenBalance ] = useState('0');
   const [ aBleepTokenBalance, setABleepTokenBalance ] = useState('0');
@@ -23,6 +25,8 @@ export default function Dashboard(props) {
 
   useEffect(() => {
     const ethLoadData = async () => {
+      const shortAddress = await addressShortener(userAddress);
+      setShortAddress(shortAddress);
       const newEthBalance = await getEthBalance(userAddress);
       const newBleepTokenBalance = await getBleepTokenBalance(userAddress);
       const newABleepTokenBalance = await getABleepTokenBalance(userAddress);
@@ -38,10 +42,10 @@ export default function Dashboard(props) {
       return(
         <div>
           <div className='dashboard-container'>
-            <h5>{`Wallet Address: ${userAddress}`}</h5>
-            <h5>{`Eth Balance: ${ethBalance} ETH`}</h5>
-            <h5>{`Bleep Token Balance: ${bleepTokenBalance} BLP`}</h5>
-            <h5>{`aBleep Token Balance: ${aBleepTokenBalance} aBLP`}</h5>
+            <h5>{`Wallet Address: ${shortAddress}`}</h5>
+            <h5>{`Ether Balance: ${ethBalance} ETH`}</h5>
+            <h5>{`Bleep Balance: ${bleepTokenBalance} BLP`}</h5>
+            <h5>{`aBleep Balance: ${aBleepTokenBalance} aBLP`}</h5>
           </div>
           <div className='button-container'>
               <Button onClick={()=>setStep(1)}>Mint Tokens</Button>

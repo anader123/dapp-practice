@@ -9,6 +9,13 @@ let testDepositContract;
 const bleepTokenAddress = '0xf7189e50cc020658e0f4E17E6eED37470A333c75'; //Kovan
 const testDepositContractAddress = '0x6687BA38B7fBdfe62FAfB3f30FBA5219C6c6CEAC'; //Kovan
 
+export const addressShortener = (address) => {
+  if(address !== undefined) {
+    const shortAddress = `${address.slice(0, 6)}...${address.slice(37, 42)}`;
+    return shortAddress;
+  }
+}
+
 // Initailize the web3 obj and contracts
 export const initializeWeb3 = () => {
   try {
